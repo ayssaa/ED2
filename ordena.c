@@ -74,18 +74,109 @@ void insercaoDireta(int vetor[], int tam, Metrica *m) {
 
 // Implementando Insercao Binaria
 void insercaoBinaria(int vetor[], int tam, Metrica *m) {
-    
+    int i, j, atual;
+    int esq, dir, meio;
+
+    for (i = 1; i < tam; i++) {
+        atual = vetor[i];
+        esq = 0;
+        dir = i - 1;
+
+        while (esq <= dir) {
+            meio = (esq + dir) / 2;
+            m->comparacoes++;
+
+            if (atual < vetor[meio]) {
+                dir = meio - 1;
+            } else {
+                esq = meio + 1;
+            }
+        }
+
+        for (j = i; j > esq; j--) {
+            vetor[j] = vetor[j - 1];
+            m->trocas++;
+        }
+
+        vetor[esq] = atual;
+        m->trocas++;
+    }
 }
 
 // Implementando Insercao Ternaria
 void insercaoTernaria(int vetor[], int tam, Metrica *m) {
-    
+    int i, j, atual;
+    int esq, dir;
+    int m1, m2;
+
+    for (i = 1; i < tam; i++) {
+        atual = vetor[i];
+        esq = 0;
+        dir = i - 1;
+
+        while (esq <= dir) {
+            m1 = esq + (dir - esq) / 3;
+            m2 = dir - (dir - esq) / 3;
+
+            m->comparacoes++;
+            if (atual < vetor[m1]) {
+                dir = m1 - 1;
+            } else {
+                m->comparacoes++;
+                if (atual > vetor[m2]) {
+                    esq = m2 + 1;
+                } else {
+                    esq = m1 + 1;
+                    dir = m2 - 1;
+                }
+            }
+        }
+
+        for (j = i; j > esq; j--) {
+            vetor[j] = vetor[j - 1];
+            m->trocas++;
+        }
+
+        vetor[esq] = atual;
+        m->trocas++;
+    }
 }
 
 // Implementando Shellsort
 void shellsort(int vetor[], int tam, Metrica *m) {
-    
+    int h = 1;
+    int i, j;
+    int atual;
+
+    while (h < tam) {
+        h = 3 * h + 1;
+    }
+
+    while (h > 1) {
+        h = h / 3;
+
+        for (i = h; i < tam; i++) {
+            atual = vetor[i];
+            j = i - h;
+
+            while (j >= 0) {
+                m->comparacoes++;
+
+                if (atual < vetor[j]) {
+                    vetor[j + h] = vetor[j];
+                    m->trocas++;
+                    j = j - h;
+                } else {
+                    break;
+                }
+            }
+
+            vetor[j + h] = atual;
+            m->trocas++;
+        }
+    }
 }
+
 
 // Implementando Selecao Direta
 void selecaoDireta(int v[], int tam, Metrica *m) {
@@ -162,7 +253,6 @@ void heapsort(int vetor[], int tam, Metrica *m) {
         criaHeap(vetor, 0, i - 1, m);
     }
 }
-
 
 // Implementando Quicksort Centro
 void quicksortcentro(int vetor[], int tam, Metrica *m) {

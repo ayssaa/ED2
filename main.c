@@ -5,17 +5,9 @@
 # include "gera.h"       // funcao que gera lista 
 # include "metricas.h"   // funcao que cuida da metrica (tempo, comp, troca)
 # include "ordena.h"     // implementacao dos metodos
-# include "documento.h"  // funcao que gera .txt
-
-// Funcao que copia/reseta uma lista
-void copiaLista(int listaOriginal[], int listaCopia[], int quantidade) {
-    for(int i = 0; i < quantidade; i++) {
-        listaCopia[i] = listaOriginal[i];
-    }
-}
+# include "util.h"       // utilidades (saída e copiar lista)
 
 void main() {
-
     int opcao, qnt, tipo;
     int *lista = NULL;
     int *listaAux = NULL;
@@ -123,142 +115,34 @@ void main() {
                 printf("Opcao: ");
                 scanf("%d", &opcao);
 
+                copiaLista(lista, listaAux, qnt);
+                inicializaMetricas(&m);
+                ini = clock();
+
                 switch(opcao) {
                     case 1:
-                        copiaLista(lista, listaAux, qnt);
-                        inicializaMetricas(&m);
-                        
-                        ini = clock();
                         bolha(listaAux, qnt, &m);
-                        fim = clock();
-
-                        m.tempo = (double)(fim - ini) / CLOCKS_PER_SEC;
-
-                        // Mostrando desempenho
-                        printf("\n----- Metricas de desempenho da Ordenacao -----\n");
-                        printf("Metodo: Bolha\n");
-                        printf("Tempo: %f segundos\n", m.tempo);
-                        printf("Trocas: %lld\n", m.trocas);
-                        printf("Comparacoes: %lld\n", m.comparacoes);
                         break;
                     case 2:
-                        copiaLista(lista, listaAux, qnt);
-                        inicializaMetricas(&m);
-
-                        ini = clock();
                         bolhaParada(listaAux, qnt, &m);
-                        fim = clock();
-
-                        m.tempo = (double)(fim - ini) / CLOCKS_PER_SEC;
-
-                        // Mostrando desempenho
-                        printf("\n----- Metricas de desempenho da Ordenacao -----\n");
-                        printf("Metodo: Bolha com criterio de Parada\n");    
-                        printf("Tempo: %.8f segundos\n", m.tempo);
-                        printf("Trocas: %lld\n", m.trocas);
-                        printf("Comparacoes: %lld\n", m.comparacoes);
                         break;
                     case 3:
-                        copiaLista(lista, listaAux, qnt);
-                        inicializaMetricas(&m);
-
-                        ini = clock();
                         insercaoDireta(listaAux, qnt, &m);
-                        fim = clock();
-
-                        m.tempo = (double)(fim - ini) / CLOCKS_PER_SEC;
-
-                        // Mostrando desempenho
-                        printf("\n----- Metricas de desempenho da Ordenacao -----\n");
-                        printf("Metodo: Insercao Direta\n");    
-                        printf("Tempo: %.8f segundos\n", m.tempo);
-                        printf("Trocas: %lld\n", m.trocas);
-                        printf("Comparacoes: %lld\n", m.comparacoes);
                         break;
                     case 4:
-                        copiaLista(lista, listaAux, qnt);
-                        inicializaMetricas(&m);
-
-                        ini = clock();
                         insercaoBinaria(listaAux, qnt, &m);
-                        fim = clock();
-
-                        m.tempo = (double)(fim - ini) / CLOCKS_PER_SEC;
-
-                        // Mostrando desempenho
-                        printf("\n----- Metricas de desempenho da Ordenacao -----\n");
-                        printf("Metodo: Insercao Binaria\n");    
-                        printf("Tempo: %.8f segundos\n", m.tempo);
-                        printf("Trocas: %lld\n", m.trocas);
-                        printf("Comparacoes: %lld\n", m.comparacoes);
                         break;
                     case 5:
-                        copiaLista(lista, listaAux, qnt);
-                        inicializaMetricas(&m);
-
-                        ini = clock();
                         insercaoTernaria(listaAux, qnt, &m);
-                        fim = clock();
-
-                        m.tempo = (double)(fim - ini) / CLOCKS_PER_SEC;
-
-                        // Mostrando desempenho
-                        printf("\n----- Metricas de desempenho da Ordenacao -----\n");
-                        printf("Metodo: Insercao Ternaria\n");    
-                        printf("Tempo: %.8f segundos\n", m.tempo);
-                        printf("Trocas: %lld\n", m.trocas);
-                        printf("Comparacoes: %lld\n", m.comparacoes);
                         break;
                     case 6:
-                        copiaLista(lista, listaAux, qnt);
-                        inicializaMetricas(&m);
-
-                        ini = clock();
                         shellsort(listaAux, qnt, &m);
-                        fim = clock();
-
-                        m.tempo = (double)(fim - ini) / CLOCKS_PER_SEC;
-
-                        // Mostrando desempenho
-                        printf("\n----- Metricas de desempenho da Ordenacao -----\n");
-                        printf("Metodo: Shellsort\n");    
-                        printf("Tempo: %.8f segundos\n", m.tempo);
-                        printf("Trocas: %lld\n", m.trocas);
-                        printf("Comparacoes: %lld\n", m.comparacoes);
                         break;
                     case 7:
-                        copiaLista(lista, listaAux, qnt);
-                        inicializaMetricas(&m);
-
-                        ini = clock();
                         selecaoDireta(listaAux, qnt, &m);
-                        fim = clock();
-
-                        m.tempo = (double)(fim - ini) / CLOCKS_PER_SEC;
-
-                        // Mostrando desempenho
-                        printf("\n----- Metricas de desempenho da Ordenacao -----\n");
-                        printf("Metodo: Selecao Direta\n");    
-                        printf("Tempo: %.8f segundos\n", m.tempo);
-                        printf("Trocas: %lld\n", m.trocas);
-                        printf("Comparacoes: %lld\n", m.comparacoes);
                         break;
                     case 8:
-                        copiaLista(lista, listaAux, qnt);
-                        inicializaMetricas(&m);
-
-                        ini = clock();
                         heapsort(listaAux, qnt, &m);
-                        fim = clock();
-
-                        m.tempo = (double)(fim - ini) / CLOCKS_PER_SEC;
-
-                        // Mostrando desempenho
-                        printf("\n----- Metricas de desempenho da Ordenacao -----\n");
-                        printf("Metodo: Heapsort\n");    
-                        printf("Tempo: %.8f segundos\n", m.tempo);
-                        printf("Trocas: %lld\n", m.trocas);
-                        printf("Comparacoes: %lld\n", m.comparacoes);
                         break;
                     case 9:
                         // Mini-menu para escolher método de Quicksort
@@ -268,118 +152,46 @@ void main() {
                         printf("3 - Pivo por Mediana\n");
                         printf("Opcao: ");
                         scanf("%d", &opcao);
+
+                        // reinicia o tempo para desconsiderar o menu do quicksort
+                        ini = clock();
                         
                         switch(opcao) {
                             case 1:
-                                copiaLista(lista, listaAux, qnt);
-                                inicializaMetricas(&m);
-
-                                ini = clock();
                                 quicksortcentro(listaAux, qnt, &m);
-                                fim = clock();
-
-                                m.tempo = (double)(fim - ini) / CLOCKS_PER_SEC;
-
-                                // Mostrando desempenho
-                                printf("\n----- Metricas de desempenho da Ordenacao -----\n");
-                                printf("Metodo: Quicksort com pivo central\n");    
-                                printf("Tempo: %.8f segundos\n", m.tempo);
-                                printf("Trocas: %lld\n", m.trocas);
-                                printf("Comparacoes: %lld\n", m.comparacoes);
                                 break;
                             case 2:
-                                copiaLista(lista, listaAux, qnt);
-                                inicializaMetricas(&m);
-
-                                ini = clock();
                                 quicksortfim(listaAux, qnt, &m);
-                                fim = clock();
-
-                                m.tempo = (double)(fim - ini) / CLOCKS_PER_SEC;
-
-                                // Mostrando desempenho
-                                printf("\n----- Metricas de desempenho da Ordenacao -----\n");
-                                printf("Metodo: Quicksort com pivo no fim\n");    
-                                printf("Tempo: %.8f segundos\n", m.tempo);
-                                printf("Trocas: %lld\n", m.trocas);
-                                printf("Comparacoes: %lld\n", m.comparacoes);
                                 break;
                             case 3:
-                                copiaLista(lista, listaAux, qnt);
-                                inicializaMetricas(&m);
-
-                                ini = clock();
                                 quicksortmediana(listaAux, qnt, &m);
-                                fim = clock();
-
-                                m.tempo = (double)(fim - ini) / CLOCKS_PER_SEC;
-
-                                // Mostrando desempenho
-                                printf("\n----- Metricas de desempenho da Ordenacao -----\n");
-                                printf("Metodo: Quicksort com pivo por mediana\n");    
-                                printf("Tempo: %.8f segundos\n", m.tempo);
-                                printf("Trocas: %lld\n", m.trocas);
-                                printf("Comparacoes: %lld\n", m.comparacoes);
                                 break;
                             default:
                                 break;
                         }
                         break;
                     case 10:
-                        copiaLista(lista, listaAux, qnt);
-                        inicializaMetricas(&m);
-
-                        ini = clock();
                         mergesort(listaAux, qnt, &m);
-                        fim = clock();
-
-                        m.tempo = (double)(fim - ini) / CLOCKS_PER_SEC;
-
-                        // Mostrando desempenho
-                        printf("\n----- Metricas de desempenho da Ordenacao -----\n");
-                        printf("Metodo: Mergesort\n");    
-                        printf("Tempo: %.8f segundos\n", m.tempo);
-                        printf("Trocas: %lld\n", m.trocas);
-                        printf("Comparacoes: %lld\n", m.comparacoes);
                         break;
                     case 11:
-                        copiaLista(lista, listaAux, qnt);
-                        inicializaMetricas(&m);
-
-                        ini = clock();
                         radixsort(listaAux, qnt, &m);
-                        fim = clock();
-
-                        m.tempo = (double)(fim - ini) / CLOCKS_PER_SEC;
-
-                        // Mostrando desempenho
-                        printf("\n----- Metricas de desempenho da Ordenacao -----\n");
-                        printf("Metodo: Radixsort\n");    
-                        printf("Tempo: %.8f segundos\n", m.tempo);
-                        printf("Trocas: %lld\n", m.trocas);
-                        printf("Comparacoes: %lld\n", m.comparacoes);
                         break;
                     case 12:
-                        copiaLista(lista, listaAux, qnt);
-                        inicializaMetricas(&m);
-
-                        ini = clock();
                         bucketsort(listaAux, qnt, &m);
-                        fim = clock();
-
-                        m.tempo = (double)(fim - ini) / CLOCKS_PER_SEC;
-
-                        // Mostrando desempenho
-                        printf("\n----- Metricas de desempenho da Ordenacao -----\n");
-                        printf("Metodo: Bucketsort\n");    
-                        printf("Tempo: %.8f segundos\n", m.tempo);
-                        printf("Trocas: %lld\n", m.trocas);
-                        printf("Comparacoes: %lld\n", m.comparacoes);
                         break;
                     default:
                         printf("\nInvalido! Tente novamente.\n");
                         break;
                 }
+
+                fim = clock();
+                m.tempo = (double)(fim - ini) / CLOCKS_PER_SEC;
+
+                // Mostrando desempenho
+                printf("\n----- Metricas de desempenho da Ordenacao -----\n");
+                printf("Tempo: %f segundos\n", m.tempo);
+                printf("Trocas: %lld\n", m.trocas);
+                printf("Comparacoes: %lld\n", m.comparacoes);
                 printf("\nLista ordenada com sucesso!\n");
                 break;
             case 4:
@@ -411,251 +223,8 @@ void main() {
                     break;
                 }
 
-                FILE *relatorio = fopen("relatorio_metricas.txt", "w");
+                relatorio(lista, listaAux, qnt, tipo);
 
-                if (relatorio == NULL) {
-                    printf("Erro ao criar arquivo de relatorio!\n");
-                    break;
-                }
-
-                // Cabecalho para o .txt
-                fprintf(relatorio, "Relatorio das metricas de ordenacao\n");
-                fprintf(relatorio, "Quantidade de numeros: %d\n", qnt);
-                if (tipo == 1) {
-                    fprintf(relatorio, "Ordenacao: Aleatorio\n");
-                }
-                else if (tipo == 2) {
-                    fprintf(relatorio, "Ordenacao: Crescente\n");
-                }
-                else if (tipo == 3) {
-                    fprintf(relatorio, "Ordenacao: Decrescente\n");
-                }
-
-                // Bolha
-                copiaLista(lista, listaAux, qnt);
-                inicializaMetricas(&m);
-
-                ini = clock();
-                bolha(listaAux, qnt, &m);
-                fim = clock();
-
-                m.tempo = (double)(fim - ini) / CLOCKS_PER_SEC;
-
-                // Mostrando desempenho
-                fprintf(relatorio, "\n----- Bolha -----\n");
-                fprintf(relatorio, "Tempo: %f segundos\n", m.tempo);
-                fprintf(relatorio, "Trocas: %lld\n", m.trocas);
-                fprintf(relatorio, "Comparacoes: %lld\n\n", m.comparacoes);
-
-                // Bolha com criterio de parada
-                copiaLista(lista, listaAux, qnt);
-                inicializaMetricas(&m);
-
-                ini = clock();
-                bolhaParada(listaAux, qnt, &m);
-                fim = clock();
-
-                m.tempo = (double)(fim - ini) / CLOCKS_PER_SEC;
-
-                // Mostrando desempenho
-                fprintf(relatorio, "\n----- Bolha com criterio de Parada -----\n");
-                fprintf(relatorio, "Tempo: %.8f segundos\n", m.tempo);
-                fprintf(relatorio, "Trocas: %lld\n", m.trocas);
-                fprintf(relatorio, "Comparacoes: %lld\n\n", m.comparacoes);
-
-                // Insercao direta
-                copiaLista(lista, listaAux, qnt);
-                inicializaMetricas(&m);
-                
-                ini = clock();
-                insercaoDireta(listaAux, qnt, &m);
-                fim = clock();
-                
-                m.tempo = (double)(fim - ini) / CLOCKS_PER_SEC;
-                
-                // Mostrando desempenho
-                fprintf(relatorio, "\n----- Insercao Direta -----\n");
-                fprintf(relatorio, "Tempo: %.8f segundos\n", m.tempo);
-                fprintf(relatorio, "Trocas: %lld\n", m.trocas);
-                fprintf(relatorio, "Comparacoes: %lld\n\n", m.comparacoes);
-
-                // Insercao Binaria
-                copiaLista(lista, listaAux, qnt);
-                inicializaMetricas(&m);
-                
-                ini = clock();
-                insercaoBinaria(listaAux, qnt, &m);
-                fim = clock();
-                
-                m.tempo = (double)(fim - ini) / CLOCKS_PER_SEC;
-                
-                // Mostrando desempenho
-                fprintf(relatorio, "\n----- Insercao Binaria -----\n");
-                fprintf(relatorio, "Tempo: %.8f segundos\n", m.tempo);
-                fprintf(relatorio, "Trocas: %lld\n", m.trocas);
-                fprintf(relatorio, "Comparacoes: %lld\n\n", m.comparacoes);
-                
-                // Insercao ternaria
-                copiaLista(lista, listaAux, qnt);
-                inicializaMetricas(&m);
-                
-                ini = clock();
-                insercaoTernaria(listaAux, qnt, &m);
-                fim = clock();
-
-                m.tempo = (double)(fim - ini) / CLOCKS_PER_SEC;
-
-                // Mostrando desempenho
-                fprintf(relatorio, "\n----- Insercao Ternaria -----\n");
-                fprintf(relatorio, "Tempo: %.8f segundos\n", m.tempo);
-                fprintf(relatorio, "Trocas: %lld\n", m.trocas);
-                fprintf(relatorio, "Comparacoes: %lld\n\n", m.comparacoes);
-                
-                // Shellsort
-                copiaLista(lista, listaAux, qnt);
-                inicializaMetricas(&m);
-                
-                ini = clock();
-                shellsort(listaAux, qnt, &m);
-                fim = clock();
-                
-                m.tempo = (double)(fim - ini) / CLOCKS_PER_SEC;
-                
-                // Mostrando desempenho
-                fprintf(relatorio, "\n----- Shellsort -----\n");
-                fprintf(relatorio, "Tempo: %.8f segundos\n", m.tempo);
-                fprintf(relatorio, "Trocas: %lld\n", m.trocas);
-                fprintf(relatorio, "Comparacoes: %lld\n\n", m.comparacoes);
-
-                // Selecao direta
-                copiaLista(lista, listaAux, qnt);
-                inicializaMetricas(&m);
-                
-                ini = clock();
-                selecaoDireta(listaAux, qnt, &m);
-                fim = clock();
-                
-                m.tempo = (double)(fim - ini) / CLOCKS_PER_SEC;
-                
-                // Mostrando desempenho
-                fprintf(relatorio, "\n----- Selecao Direta -----\n");
-                fprintf(relatorio, "Tempo: %.8f segundos\n", m.tempo);
-                fprintf(relatorio, "Trocas: %lld\n", m.trocas);
-                fprintf(relatorio, "Comparacoes: %lld\n\n", m.comparacoes);
-                
-                // Heapsort
-                copiaLista(lista, listaAux, qnt);
-                inicializaMetricas(&m);
-                
-                ini = clock();
-                heapsort(listaAux, qnt, &m);
-                fim = clock();
-                
-                m.tempo = (double)(fim - ini) / CLOCKS_PER_SEC;
-                
-                // Mostrando desempenho
-                fprintf(relatorio, "\n----- Heapsort -----\n");
-                fprintf(relatorio, "Tempo: %.8f segundos\n", m.tempo);
-                fprintf(relatorio, "Trocas: %lld\n", m.trocas);
-                fprintf(relatorio, "Comparacoes: %lld\n\n", m.comparacoes);
-
-                // Quicksort centro
-                copiaLista(lista, listaAux, qnt);
-                inicializaMetricas(&m);
-                
-                ini = clock();
-                quicksortcentro(listaAux, qnt, &m);
-                fim = clock();
-                
-                m.tempo = (double)(fim - ini) / CLOCKS_PER_SEC;
-                
-                // Mostrando desempenho
-                fprintf(relatorio, "\n----- Quicksort com pivo central -----\n");
-                fprintf(relatorio, "Tempo: %.8f segundos\n", m.tempo);
-                fprintf(relatorio, "Trocas: %lld\n", m.trocas);
-                fprintf(relatorio, "Comparacoes: %lld\n\n", m.comparacoes);
-                
-                // Quicksort fim
-                copiaLista(lista, listaAux, qnt);
-                inicializaMetricas(&m);
-                
-                ini = clock();
-                quicksortfim(listaAux, qnt, &m);
-                fim = clock();
-                
-                m.tempo = (double)(fim - ini) / CLOCKS_PER_SEC;
-                
-                // Mostrando desempenho
-                fprintf(relatorio, "\n----- Quicksort com pivo no fim -----\n");
-                fprintf(relatorio, "Tempo: %.8f segundos\n", m.tempo);
-                fprintf(relatorio, "Trocas: %lld\n", m.trocas);
-                fprintf(relatorio, "Comparacoes: %lld\n\n", m.comparacoes);
-                
-                // Quicksort mediana
-                copiaLista(lista, listaAux, qnt);
-                inicializaMetricas(&m);
-
-                ini = clock();
-                quicksortmediana(listaAux, qnt, &m);
-                fim = clock();
-                
-                m.tempo = (double)(fim - ini) / CLOCKS_PER_SEC;
-                
-                // Mostrando desempenho
-                fprintf(relatorio, "\n----- Quicksort com pivo por mediana -----\n");
-                fprintf(relatorio, "Tempo: %.8f segundos\n", m.tempo);
-                fprintf(relatorio, "Trocas: %lld\n", m.trocas);
-                fprintf(relatorio, "Comparacoes: %lld\n\n", m.comparacoes);
-                
-                // Mergesort
-                copiaLista(lista, listaAux, qnt);
-                inicializaMetricas(&m);
-                
-                ini = clock();
-                mergesort(listaAux, qnt, &m);
-                fim = clock();
-                
-                m.tempo = (double)(fim - ini) / CLOCKS_PER_SEC;
-                
-                // Mostrando desempenho
-                fprintf(relatorio, "\n----- Mergesort -----\n");
-                fprintf(relatorio, "Tempo: %.8f segundos\n", m.tempo);
-                fprintf(relatorio, "Trocas: %lld\n", m.trocas);
-                fprintf(relatorio, "Comparacoes: %lld\n\n", m.comparacoes);
-                
-                // Radixsort
-                copiaLista(lista, listaAux, qnt);
-                inicializaMetricas(&m);
-                
-                ini = clock();
-                radixsort(listaAux, qnt, &m);
-                fim = clock();
-                
-                m.tempo = (double)(fim - ini) / CLOCKS_PER_SEC;
-                
-                // Mostrando desempenho
-                fprintf(relatorio, "\n----- Radixsort -----\n");
-                fprintf(relatorio, "Tempo: %.8f segundos\n", m.tempo);
-                fprintf(relatorio, "Trocas: %lld\n", m.trocas);
-                fprintf(relatorio, "Comparacoes: %lld\n\n", m.comparacoes);
-                
-                // Bucketsort
-                copiaLista(lista, listaAux, qnt);
-                inicializaMetricas(&m);
-                
-                ini = clock();
-                bucketsort(listaAux, qnt, &m);
-                fim = clock();
-                
-                m.tempo = (double)(fim - ini) / CLOCKS_PER_SEC;
-                
-                // Mostrando desempenho
-                fprintf(relatorio, "\n----- Bucketsort -----\n");
-                fprintf(relatorio, "Tempo: %.8f segundos\n", m.tempo);
-                fprintf(relatorio, "Trocas: %lld\n", m.trocas);
-                fprintf(relatorio, "Comparacoes: %lld\n\n", m.comparacoes);
-                
-                fclose(relatorio);
                 printf("\nRelatorio gerado em relatorio_metricas.txt!\n");
                 break;
         }

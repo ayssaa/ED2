@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 #include "ordena.h"
 #include "metricas.h"
 
@@ -7,13 +8,12 @@
 void bolha(int vetor[], int tam, Metrica *m) {
     int i, j, aux;
 
-    for (i = 0; i < (tam - 1); i++) { // percorre lista
-        for (j = 0; j < (tam-1); j++) { // compara elementos entre si
+    for (i = 0; i < (tam - 1); i++) {
+        for (j = 0; j < (tam-1); j++) {
 
             m->comparacoes++;
 
-            if(vetor[j] > vetor[j+1]) { // comparando
-                // se o valor atual é maior do que o mais à direita, efetuando troca!
+            if(vetor[j] > vetor[j+1]) {
                 aux = vetor[j];
                 vetor[j] = vetor[j+1];
                 vetor[j+1] = aux;
@@ -49,7 +49,7 @@ void bolhaParada(int vetor[], int tam, Metrica *m) {
     } while (continua != 0);
 }
 
-// Implementando Inserção Direta
+// Implementando Insercao Direta
 void insercaoDireta(int vetor[], int tam, Metrica *m) {
     int i, j, atual;
 
@@ -254,19 +254,139 @@ void heapsort(int vetor[], int tam, Metrica *m) {
     }
 }
 
-// Implementando Quicksort Centro
-void quicksortcentro(int vetor[], int tam, Metrica *m) {
+// Implementando Particao Centro para Quicksort
+int particaoCentro(int vetor[], int esq, int dir, Metrica *m) {
+    int centro = (esq + dir) / 2;
+    int aux;
 
+    // move o pivo para o final
+    aux = vetor[centro];
+    vetor[centro] = vetor[dir];
+    vetor[dir] = aux;
+    m->trocas++;
+
+    int pivo = vetor[dir];
+    int i = esq - 1;
+
+    for (int j = esq; j < dir; j++) {
+        m->comparacoes++;
+        if (vetor[j] <= pivo) {
+            i++;
+            aux = vetor[i];
+            vetor[i] = vetor[j];
+            vetor[j] = aux;
+            m->trocas++;
+        }
+    }
+
+    aux = vetor[i + 1];
+    vetor[i + 1] = vetor[dir];
+    vetor[dir] = aux;
+    m->trocas++;
+
+    return i + 1;
 }
 
-// Implementando Quicksort Fim
-void quicksortfim(int vetor[], int tam, Metrica *m) {
+// Implementando Particao Fim para Quicksort
+int particaoFim(int vetor[], int esq, int dir, Metrica *m) {
+    int pivo = vetor[dir];
+    int i = esq - 1;
+    int aux;
 
+    for (int j = esq; j < dir; j++) {
+        m->comparacoes++;
+        if (vetor[j] <= pivo) {
+            i++;
+            aux = vetor[i];
+            vetor[i] = vetor[j];
+            vetor[j] = aux;
+            m->trocas++;
+        }
+    }
+
+    aux = vetor[i + 1];
+    vetor[i + 1] = vetor[dir];
+    vetor[dir] = aux;
+    m->trocas++;
+
+    return i + 1;
 }
 
-// Implementando Quicksort Mediana
-void quicksortmediana(int vetor[], int tam, Metrica *m) {
-    
+// Implementando Particao Mediana para Quicksort
+int particaoMediana(int vetor[], int esq, int dir, Metrica *m) {
+    int centro = (esq + dir) / 2;
+    int aux;
+
+    m->comparacoes++;
+    if (vetor[esq] > vetor[centro]) {
+        aux = vetor[esq];
+        vetor[esq] = vetor[centro];
+        vetor[centro] = aux;
+        m->trocas++;
+    }
+
+    m->comparacoes++;
+    if (vetor[esq] > vetor[dir]) {
+        aux = vetor[esq];
+        vetor[esq] = vetor[dir];
+        vetor[dir] = aux;
+        m->trocas++;
+    }
+
+    m->comparacoes++;
+    if (vetor[centro] > vetor[dir]) {
+        aux = vetor[centro];
+        vetor[centro] = vetor[dir];
+        vetor[dir] = aux;
+        m->trocas++;
+    }
+
+    // pivo vai para o fim
+    aux = vetor[centro];
+    vetor[centro] = vetor[dir];
+    vetor[dir] = aux;
+    m->trocas++;
+
+    int pivo = vetor[dir];
+    int i = esq - 1;
+
+    for (int j = esq; j < dir; j++) {
+        m->comparacoes++;
+        if (vetor[j] <= pivo) {
+            i++;
+            aux = vetor[i];
+            vetor[i] = vetor[j];
+            vetor[j] = aux;
+            m->trocas++;
+        }
+    }
+
+    aux = vetor[i + 1];
+    vetor[i + 1] = vetor[dir];
+    vetor[dir] = aux;
+    m->trocas++;
+
+    return i + 1;
+}
+
+// Implementando Quicksort
+void quicksort(int vetor[], int esq, int dir, int tipo, Metrica *m) {
+    if (esq < dir) {
+        int p;
+
+        if (tipo == 1) {
+            p = particaoCentro(vetor, esq, dir, m);
+        }
+        else if (tipo == 2) {
+            p = particaoFim(vetor, esq, dir, m);
+        }
+        else {
+            p = particaoMediana(vetor, esq, dir, m);
+        }
+
+        quicksort(vetor, esq, p - 1, tipo, m);
+        quicksort(vetor, p + 1, dir, tipo, m);
+    }
 }
 
 // Função Merge auxiliar para a Mergesort
@@ -333,12 +453,129 @@ void mergesort(int vetor[], int tam, Metrica *m) {
     mergeSortRec(vetor, 0, tam - 1, m);
 }
 
+// Funcao auxiliar para Radixsort
+void countingDigito(int vetor[], int tam, int exp, int aux[], Metrica *m) {
+    int cont[10] = {0};
+
+    for (int i = 0; i < tam; i++) {
+        int dig = (vetor[i] / exp) % 10;
+        m->comparacoes++;          // comparacao/inspecao de digito
+        cont[dig]++;
+    }
+
+    for (int d = 1; d < 10; d++) {
+        cont[d] += cont[d - 1];
+    }
+
+    for (int i = tam - 1; i >= 0; i--) {
+        int dig = (vetor[i] / exp) % 10;
+        m->comparacoes++;          // comparacao/inspecao de digito
+
+        aux[cont[dig] - 1] = vetor[i];
+        cont[dig]--;
+        m->trocas++;               // movimentacao para o aux
+    }
+
+    for (int i = 0; i < tam; i++) {
+        vetor[i] = aux[i];
+        m->trocas++;               // movimentacao de volta pro vetor
+    }
+}
+
 // Implementando Radixsort
 void radixsort(int vetor[], int tam, Metrica *m) {
+    int maior = vetor[0];
 
+    for (int i = 1; i < tam; i++) {
+        if (vetor[i] > maior) {
+            maior = vetor[i];
+        }
+    }
+
+    int *aux = malloc(tam * sizeof(int));
+    if (aux == NULL) return;
+
+    for (int exp = 1; maior / exp > 0; exp *= 10) {
+        countingDigito(vetor, tam, exp, aux, m);
+    }
+
+    free(aux);
 }
 
 // Implementando Bucketsort
 void bucketsort(int vetor[], int tam, Metrica *m) {
-    
+    int i;
+
+    int numBaldes = 3000;
+    int minRange = 0;
+    int maxRange = 29999;
+    int largura = 10;
+
+    int *qtd = (int *) calloc(numBaldes, sizeof(int)); // usando calloc pra vir zerado logo!
+    int *inicio = (int *) malloc(numBaldes * sizeof(int));
+    int *pos = (int *) malloc(numBaldes * sizeof(int));
+    int *buffer = (int *) malloc(tam * sizeof(int));
+
+    if (qtd == NULL || inicio == NULL || pos == NULL || buffer == NULL) {
+        free(qtd);
+        free(inicio);
+        free(pos);
+        free(buffer);
+        return;
+    }
+
+    for (i = 0; i < tam; i++) {
+        int idx = (vetor[i] - minRange) / largura;
+
+        if (idx < 0) {
+            idx = 0;
+        }
+        if (idx >= numBaldes) {
+            idx = numBaldes - 1;
+        }
+
+        qtd[idx]++;
+    }
+
+    inicio[0] = 0;
+    for (i = 1; i < numBaldes; i++) {
+        inicio[i] = inicio[i - 1] + qtd[i - 1];
+    }
+
+    for (i = 0; i < numBaldes; i++) {
+        pos[i] = inicio[i];
+    }
+
+    for (i = 0; i < tam; i++) {
+        int idx = (vetor[i] - minRange) / largura;
+
+        if (idx < 0) {
+            idx = 0;
+        }
+        if (idx >= numBaldes) {
+            idx = numBaldes - 1;
+        }
+
+        buffer[pos[idx]] = vetor[i];
+        pos[idx]++;
+        m->trocas++;
+    }
+
+    for (i = 0; i < numBaldes; i++) {
+        int tamanhoBalde = qtd[i];
+
+        if (tamanhoBalde > 1) {
+            bolha(&buffer[inicio[i]], tamanhoBalde, m);
+        }
+    }
+
+    for (i = 0; i < tam; i++) {
+        vetor[i] = buffer[i];
+        m->trocas++;
+    }
+
+    free(qtd);
+    free(inicio);
+    free(pos);
+    free(buffer);
 }

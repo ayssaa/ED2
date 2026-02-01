@@ -11,7 +11,7 @@ int* gera(int quantidade, int tipo) {
     // lista aleatoria
     if(tipo == 1) {
         for (int i = 0; i < quantidade; i++) {
-            vetor[i] = rand() % 1000; // gerando numeros aleatorios que variam de 0 até 999
+            vetor[i] = rand() % 30000; // gerando numeros aleatorios
         }
     } 
 

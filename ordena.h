@@ -18,11 +18,7 @@ void selecaoDireta(int vetor[], int tam, Metrica *m);
 
 void heapsort(int vetor[], int tam, Metrica *m);
 
-void quicksortcentro(int vetor[], int tam, Metrica *m);
-
-void quicksortfim(int vetor[], int tam, Metrica *m);
-
-void quicksortmediana(int vetor[], int tam, Metrica *m);
+void quicksort(int vetor[], int esq, int dir, int tipo, Metrica *m);
 
 void mergesort(int vetor[], int tam, Metrica *m);
 

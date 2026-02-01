@@ -193,7 +193,7 @@ void relatorio(int lista[], int listaAux[], int qnt, int tipo) {
     inicializaMetricas(&m);
 
     ini = clock();
-    quicksortcentro(listaAux, qnt, &m);
+    quicksort(listaAux, 0, qnt, 1, &m);
     fim = clock();
 
     m.tempo = (double)(fim - ini) / CLOCKS_PER_SEC;
@@ -209,7 +209,7 @@ void relatorio(int lista[], int listaAux[], int qnt, int tipo) {
     inicializaMetricas(&m);
 
     ini = clock();
-    quicksortfim(listaAux, qnt, &m);
+    quicksort(listaAux, 0, qnt, 2, &m);
     fim = clock();
 
     m.tempo = (double)(fim - ini) / CLOCKS_PER_SEC;
@@ -225,7 +225,7 @@ void relatorio(int lista[], int listaAux[], int qnt, int tipo) {
     inicializaMetricas(&m);
 
     ini = clock();
-    quicksortmediana(listaAux, qnt, &m);
+    quicksort(listaAux, 0, qnt, 3, &m);
     fim = clock();
 
     m.tempo = (double)(fim - ini) / CLOCKS_PER_SEC;

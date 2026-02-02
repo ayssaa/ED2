@@ -370,7 +370,6 @@ int particaoMediana(int vetor[], int esq, int dir, Metrica *m) {
 }
 
 // Implementando Quicksort
-// Implementando Quicksort com recursão controlada
 void quicksort(int vetor[], int esq, int dir, int tipo, Metrica *m) {
     while (esq < dir) {
         int p;

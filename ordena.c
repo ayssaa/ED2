@@ -370,8 +370,9 @@ int particaoMediana(int vetor[], int esq, int dir, Metrica *m) {
 }
 
 // Implementando Quicksort
+// Implementando Quicksort com recursão controlada
 void quicksort(int vetor[], int esq, int dir, int tipo, Metrica *m) {
-    if (esq < dir) {
+    while (esq < dir) {
         int p;
 
         if (tipo == 1) {
@@ -384,10 +385,17 @@ void quicksort(int vetor[], int esq, int dir, int tipo, Metrica *m) {
             p = particaoMediana(vetor, esq, dir, m);
         }
 
-        quicksort(vetor, esq, p - 1, tipo, m);
-        quicksort(vetor, p + 1, dir, tipo, m);
+        // Chama recursivamente apenas o menor subvetor
+        if (p - esq < dir - p) {
+            quicksort(vetor, esq, p - 1, tipo, m);
+            esq = p + 1;   // continua no maior lado
+        } else {
+            quicksort(vetor, p + 1, dir, tipo, m);
+            dir = p - 1;   // continua no maior lado
+        }
     }
 }
+
 
 // Função Merge auxiliar para a Mergesort
 void merge(int vetor[], int inicio, int meio, int fim, Metrica *m) {

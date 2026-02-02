@@ -158,13 +158,13 @@ void main() {
                         
                         switch(opcao) {
                             case 1:
-                                quicksort(listaAux, 0, qnt, 1, &m);
+                                quicksort(listaAux, 0, qnt-1, 1, &m);
                                 break;
                             case 2:
-                                quicksort(listaAux, 0, qnt, 2, &m);
+                                quicksort(listaAux, 0, qnt-1, 2, &m);
                                 break;
                             case 3:
-                                quicksort(listaAux, 0, qnt, 3, &m);
+                                quicksort(listaAux, 0, qnt-1, 3, &m);
                                 break;
                             default:
                                 break;
